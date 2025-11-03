@@ -13,12 +13,12 @@ offspring <- c(
 )
 
 # Loop through genotypes and count frequencies
-genotype_counts <- table(offspring)
+counts <- table(offspring)
 
 # Create dataframe
 results <- data.frame(
-  Genotype = names(genotype_counts),
-  Count = as.numeric(genotype_counts),
+  Genotype = names(counts),
+  Count = as.numeric(counts),
   stringsAsFactors = FALSE
 )
 
@@ -36,7 +36,7 @@ print("Coat Color Predictions:")
 print(results)
 
 # Datatype demo
-isDominant <- TRUE          # logical
-geneScore <- 2.5            # numeric
-rabbitName <- "Lyra"        # character
+dominant <- TRUE          # logical
+score <- 2.5            # numeric
+name <- "Lyra"        # character
 traits <- list("Agouti", "Dense Fur")  # list
