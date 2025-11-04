@@ -34,6 +34,11 @@ simulate_kits <- function(doe_genotype, buck_genotype) {
   return(normalized_kits)
 }
 
+display_menu <- function(subject, descriptor, options) {
+  header <- sprintf("%s's %s?", subject, descriptor)
+  cat(paste(c(header, options), collapse = "\n"), "\n", sep = "")
+}
+
 cat("****************************************************") # nolint
 cat("\n")
 cat("🐇 Welcome to The Rabbit Genome Calculator!🧮")
@@ -41,92 +46,73 @@ cat("\n")
 cat("****************************************************") # nolint
 
 cat("\n")
-cat("This calculator predicts the 10 most likely kit coat colors\n based on two parent pairings.") # nolint: line_length_linter.
+cat("This calculator predicts the top 10 coat colors based on parent pairings.") # nolint: line_length_linter.
 
 cat("\n\n")
-doe_color_choice <- as.integer(readline("What color is the doe?
-  1. Black
-  2. Chocolate:
-    Type a number: "))
+color_options <- c("  1. Black", "  2. Chocolate")
+display_menu("Doe", "color", color_options)
+doe_color_choice <- as.integer(readline("Type a number: "))
 doe_color <- if (doe_color_choice == 1) "BB" else "bb"
 cat("\n")
 
-buck_color_choice <- as.integer(readline("What color is the buck?
-  1. Black 
-  2. Chocolate: 
-    Type a number: "))
+display_menu("Buck", "color", color_options)
+buck_color_choice <- as.integer(readline("Type a number: "))
 buck_color <- if (buck_color_choice == 1) "BB" else "bb"
 cat("\n")
 
-doe_agouti_choice <- as.integer(readline("What pattern is the doe?
-  1. Agouti
-  2. Solid: 
-    Type a number: "))
+agouti_options <- c("  1. Agouti", "  2. Solid")
+display_menu("Doe", "pattern", agouti_options)
+doe_agouti_choice <- as.integer(readline("Type a number: "))
 doe_agouti <- if (doe_agouti_choice == 1) "AA" else "aa"
 cat("\n")
 
-buck_agouti_choice <- as.integer(readline("What pattern is the buck?
-  1. Agouti
-  2. Solid: 
-    Type a number: "))
+display_menu("Buck", "pattern", agouti_options)
+buck_agouti_choice <- as.integer(readline("Type a number: "))
 buck_agouti <- if (buck_agouti_choice == 1) "AA" else "aa"
 cat("\n")
 
-doe_family_choice <- as.integer(readline(
-  "Doe's color family?\n  1. Full\n  2. Chinchilla\n  3. Seal\n  4. Sable\n  5. Himalayan\n  6. Ruby-Eyed White\nType a number: "
-))
-
-doe_family <- switch(doe_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")     # fallback if user enters something unexpected # nolint
+family_options <- c(
+  "  1. Full — C (CC)",
+  "  2. Chinchilla — c(chd) (cchdcchd)",
+  "  3. Seal — ch (chch)",
+  "  4. Sable — c(y) (cycy)",
+  "  5. Himalayan — c(h) (cccc)",
+  "  6. Ruby-Eyed-White — c (cc)"
+)
+display_menu("Doe", "color family", family_options)
+doe_family_choice <- as.integer(readline("Type a number: "))
+doe_family <- switch(doe_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")
 cat("\n")
 
-buck_family_choice <- as.integer(readline(
-  "Buck's color family?\n  1. Full\n  2. Chinchilla\n  3. Seal\n  4. Sable\n  5. Himalayan\n  6. Ruby-Eyed White\nType a number: "
-))
-
-buck_family <- switch(buck_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")  # fallback if user enters something unexpected # nolint
+display_menu("Buck", "color family", family_options)
+buck_family_choice <- as.integer(readline("Type a number: "))
+buck_family <- switch(buck_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")
 cat("\n")
 
-# Doe pattern choice
-doe_pattern_choice <- as.integer(readline("Doe's pattern?
-  1. Steel — E(s) (Es)
-  2. Harlequin — e(j) (ej)
-  3. Broken — E(n) (En)
-  4. broken — e(n) (en)
-  5. Vienna — V
-  6. vienna — v
-  7. Dutch — D(u) (Du)
-  8. dutch — d(u) (du)
-  9. Silvering — S(i) (Si)
-  10. silvering — s(i) (si)
-  11. Wideband — W
-  12. wideband — w
-  13. Lutino — P
-  14. lutino — p
-    Type a number: "))
-doe_pattern <- switch(doe_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid") # nolint
-
+pattern_options <- c(
+  "  1. Steel — E(s) (Es)",
+  "  2. Harlequin — e(j) (ej)",
+  "  3. Broken — E(n) (En)",
+  "  4. broken — e(n) (en)",
+  "  5. Vienna — V",
+  "  6. vienna — v",
+  "  7. Dutch — D(u) (Du)",
+  "  8. dutch — d(u) (du)",
+  "  9. Silvering — S(i) (Si)",
+  " 10. silvering — s(i) (si)",
+  " 11. Wideband — W",
+  " 12. wideband — w",
+  " 13. Lutino — P",
+  " 14. lutino — p"
+)
+display_menu("Doe", "pattern", pattern_options)
+doe_pattern_choice <- as.integer(readline("Type a number: "))
+doe_pattern <- switch(doe_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid")
 cat("\n")
-# Buck pattern choice
-buck_pattern_choice <- as.integer(readline(
-  "Buck's pattern?
-  1. Steel — E(s) (Es)
-  2. Harlequin — e(j) (ej)
-  3. Broken — E(n) (En)
-  4. broken — e(n) (en)
-  5. Vienna — V
-  6. vienna — v
-  7. Dutch — D(u) (Du)
-  8. dutch — d(u) (du)
-  9. Silvering — S(i) (Si)
-  10. silvering — s(i) (si)
-  11. Wideband — W
-  12. wideband — w
-  13. Lutino — P
-  14. lutino — p
-    Type a number: "
-))
 
-buck_pattern <- switch(buck_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid") # nolint
+display_menu("Buck", "pattern", pattern_options)
+buck_pattern_choice <- as.integer(readline("Type a number: "))
+buck_pattern <- switch(buck_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid")
 cat("\n")
 
 kit_count <- 10  # numeric
