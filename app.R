@@ -2,7 +2,7 @@ library(dplyr)
 
 # Function that simulates kit coat colors
 simulate_kits <- function(doe_genotype, buck_genotype) {
-  # split each parent's genotype into two allele strings (first half, second half) 
+  # split each parent's genotype into two allele strings (first half, second half)  # nolint: line_length_linter.
   half_doe <- nchar(doe_genotype) / 2
   doe_alleles <- c(
     substr(doe_genotype, 1, as.integer(half_doe)),
@@ -35,87 +35,98 @@ simulate_kits <- function(doe_genotype, buck_genotype) {
 }
 
 cat("****************************************************") # nolint
-cat("\n🐇 Welcome to The Rabbit Genome Calculator!🧮\n")
+cat("\n")
+cat("🐇 Welcome to The Rabbit Genome Calculator!🧮")
+cat("\n")
 cat("****************************************************") # nolint
 
-cat("\nThis calculator predicts the 10 most likely kit coat colors\nbased on two parent pairings.\n\n") # nolint: line_length_linter.
+cat("\n")
+cat("This calculator predicts the 10 most likely kit coat colors\n based on two parent pairings.") # nolint: line_length_linter.
 
-doe_color_choice <- as.integer(readline(
-  "What color is the doe?\n Type a number: (1) Black (2) Chocolate: "
-))
+cat("\n\n")
+doe_color_choice <- as.integer(readline("What color is the doe?
+  1. Black
+  2. Chocolate:
+    Type a number: "))
 doe_color <- if (doe_color_choice == 1) "BB" else "bb"
 cat("\n")
 
-buck_color_choice <- as.integer(readline(
-  "What color is the buck?\n Type a number: (1) Black (2) Chocolate: "
-))
+buck_color_choice <- as.integer(readline("What color is the buck?
+  1. Black 
+  2. Chocolate: 
+    Type a number: "))
 buck_color <- if (buck_color_choice == 1) "BB" else "bb"
 cat("\n")
 
-doe_agouti_choice <- as.integer(readline(
-  "What pattern is the doe?\n Type a number: (1) Agouti (2) Solid: "
-))
+doe_agouti_choice <- as.integer(readline("What pattern is the doe?
+  1. Agouti
+  2. Solid: 
+    Type a number: "))
 doe_agouti <- if (doe_agouti_choice == 1) "AA" else "aa"
 cat("\n")
 
-buck_agouti_choice <- as.integer(readline(
-  "What pattern is the buck?\n Type a number: (1) Agouti (2) Solid: "
-    )) # nolint
+buck_agouti_choice <- as.integer(readline("What pattern is the buck?
+  1. Agouti
+  2. Solid: 
+    Type a number: "))
 buck_agouti <- if (buck_agouti_choice == 1) "AA" else "aa"
 cat("\n")
 
-# Doe family choice
 doe_family_choice <- as.integer(readline(
-  "What is the doe's color family?\n Type a number:\n (1) Full  (2) Chinchilla  (3) Seal\n (4) Sable  (5) Himalayan  (6) Ruby-Eyed White\n" # nolint: line_length_linter.
+  "Doe's color family?\n  1. Full\n  2. Chinchilla\n  3. Seal\n  4. Sable\n  5. Himalayan\n  6. Ruby-Eyed White\nType a number: "
 ))
-doe_family <- switch(doe_family_choice,
-  "CC",
-  "cchdcchd",
-  "chch",
-  "cycy",
-  "cccc",
-  "cc",
-  "Invalid"  # fallback if user enters something unexpected
-)
+
+doe_family <- switch(doe_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")     # fallback if user enters something unexpected # nolint
 cat("\n")
 
-# Buck family choice
 buck_family_choice <- as.integer(readline(
-  "What is the buck's color family?\n Type a number:\n (1) Full  (2) Chinchilla  (3) Seal\n (4) Sable  (5) Himalayan  (6) Ruby-Eyed White\n" # nolint: line_length_linter.
+  "Buck's color family?\n  1. Full\n  2. Chinchilla\n  3. Seal\n  4. Sable\n  5. Himalayan\n  6. Ruby-Eyed White\nType a number: "
 ))
-buck_family <- switch(buck_family_choice,
-  "CC",
-  "cchdcchd",
-  "chch",
-  "cycy",
-  "cccc",
-  "cc",
-  "Invalid"  # fallback if user enters something unexpected
-)
+
+buck_family <- switch(buck_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")  # fallback if user enters something unexpected # nolint
 cat("\n")
 
 # Doe pattern choice
-doe_pattern_choice <- as.integer(readline(
-  "What pattern is the doe?\n Type a number:\n (1) Steel — E(s) (Es)  (2) Harlequin — e(j) (ej)\n (3) Broken — E(n) (En)  (4) broken — e(n) (en)\n (5) Vienna — V  (6) vienna — v\n (7) Dutch — D(u) (Du)  (8) dutch — d(u) (du)\n (9) Silvering — S(i) (Si)  (10) silvering — s(i) (si)\n (11) Wideband — W  (12) wideband — w\n (13) Lutino — P  (14) lutino — p\n" # nolint: line_length_linter.
-))
-doe_pattern <- switch(doe_pattern_choice,
-  "EsEs", "ejej", "EnEn", "enen", "VV", "vv",
-  "DuDu", "dudu", "SiSi", "sisi", "WW", "ww",
-  "PP", "pp",
-  "Invalid"
-)
-cat("\n")
+doe_pattern_choice <- as.integer(readline("Doe's pattern?
+  1. Steel — E(s) (Es)
+  2. Harlequin — e(j) (ej)
+  3. Broken — E(n) (En)
+  4. broken — e(n) (en)
+  5. Vienna — V
+  6. vienna — v
+  7. Dutch — D(u) (Du)
+  8. dutch — d(u) (du)
+  9. Silvering — S(i) (Si)
+  10. silvering — s(i) (si)
+  11. Wideband — W
+  12. wideband — w
+  13. Lutino — P
+  14. lutino — p
+    Type a number: "))
+doe_pattern <- switch(doe_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid") # nolint
 
+cat("\n")
 # Buck pattern choice
 buck_pattern_choice <- as.integer(readline(
-  "What pattern is the buck?\n Type a number:\n (1) Steel — E(s) (Es)  (2) Harlequin — e(j) (ej)\n (3) Broken — E(n) (En)  (4) broken — e(n) (en)\n (5) Vienna — V  (6) vienna — v\n (7) Dutch — D(u) (Du)  (8) dutch — d(u) (du)\n (9) Silvering — S(i) (Si)  (10) silvering — s(i) (si)\n (11) Wideband — W  (12) wideband — w\n (13) Lutino — P  (14) lutino — p\n" # nolint: line_length_linter.
+  "Buck's pattern?
+  1. Steel — E(s) (Es)
+  2. Harlequin — e(j) (ej)
+  3. Broken — E(n) (En)
+  4. broken — e(n) (en)
+  5. Vienna — V
+  6. vienna — v
+  7. Dutch — D(u) (Du)
+  8. dutch — d(u) (du)
+  9. Silvering — S(i) (Si)
+  10. silvering — s(i) (si)
+  11. Wideband — W
+  12. wideband — w
+  13. Lutino — P
+  14. lutino — p
+    Type a number: "
 ))
-buck_pattern <- switch(buck_pattern_choice,
-  "EsEs", "ejej", "EnEn", "enen", "VV", "vv",
-  "DuDu", "dudu", "SiSi", "sisi", "WW", "ww",
-  "PP", "pp",
-  "Invalid"
-)
+
+buck_pattern <- switch(buck_pattern_choice, "EsEs", "ejej", "EnEn", "enen", "VV", "vv", "DuDu", "dudu", "SiSi", "sisi", "WW", "ww", "PP", "pp", "Invalid") # nolint
 cat("\n")
 
 kit_count <- 10  # numeric
@@ -156,7 +167,7 @@ df$Family_Phenotype <- dplyr::case_when(
   grepl("chch", df$Family_Genotype, ignore.case = TRUE) ~ "Seal",
   grepl("cycy", df$Family_Genotype, ignore.case = TRUE) ~ "Sable",
   grepl("cccc", df$Family_Genotype, ignore.case = TRUE) ~ "Himalayan",
-  grepl("cc", df$Family_Genotype, ignore.case = TRUE) ~ "Ruby-Eye",
+  grepl("cc", df$Family_Genotype, ignore.case = TRUE) ~ "Ruby-Eyed White",
   TRUE ~ "Unknown"
 )
 
