@@ -1,75 +1,85 @@
-# Load Shiny library for creating the simple web form app
-library(shiny)
+library(dplyr)
 
-# Function to demonstrate output to screen and datatypes
-# (numeric, character, logical)
-# Takes a numeric price and character type, returns a logical check
-# and prints message
-display_info <- function(price, type) {
-  # price: numeric datatype for cost
-  # type: character datatype for rabbit type
-  is_expensive <- price > 50  # logical datatype: true if price > 50
-  message <- paste(
-    "Rabbit type:", type,
-    "Cost:", price,
-    "Expensive?", is_expensive
-  )
-  print(message)  # Output to screen
-  return(is_expensive)
-}
-
-# Function to demonstrate loop with lists/arrays and datatypes (list)
-# Loops through a list of rabbit features, prints each
-process_list <- function(features) {
-  # features: list datatype containing character strings
-  for (feature in features) {  # Loop over list
-    print(paste("Feature:", feature))  # Output to screen
+# Function to simulate offspring genotypes
+simulate_offspring <- function(doe_genotype, buck_genotype) {
+  len <- nchar(doe_genotype) / 2
+  doe_alleles <- c(substr(doe_genotype, 1, len), substr(doe_genotype, len + 1, len))
+  len <- nchar(buck_genotype) / 2
+  buck_alleles <- c(substr(buck_genotype, 1, len), substr(buck_genotype, len + 1, len))
+  offspring <- c()
+  for (d in doe_alleles) {
+    for (b in buck_alleles) {
+      offspring <- c(offspring, paste0(d, b))
+    }
   }
+  return(offspring)
 }
 
-# Function to demonstrate dataframes and CSV
-# Creates a dataframe, writes to CSV, reads back, and returns total cost
-handle_dataframe_csv <- function(types, quantities) {
-  # types: character vector; quantities: numeric vector
-  df <- data.frame(
-    Type = types,
-    Quantity = quantities,
-    Cost = c(20, 30)
-  ) # Dataframe with columns
-  write.csv(df, "rabbit_data.csv", row.names = FALSE)  # Write to CSV
-  read_df <- read.csv("rabbit_data.csv")  # Read from CSV
-  total_cost <- sum(read_df$Cost * read_df$Quantity)  # Calculate total
-  print("Dataframe processed and CSV handled.")  # Output to screen
-  return(total_cost)
+cat("\nWelcome to Rabbit Genome Calculator!\n")
+cat("Predicts 10 kit outcomes.\n\n")
+
+doe_color_choice <- as.integer(readline("Doe Color: 1. Black, 2. Chocolate\n"))
+doe_color <- if (doe_color_choice == 1) "BB" else "bb"
+cat("\n")
+
+buck_color_choice <- as.integer(readline("Buck Color: 1. Black, 2. Chocolate\n"))
+buck_color <- if (buck_color_choice == 1) "BB" else "bb"
+cat("\n")
+
+doe_agouti_choice <- as.integer(readline("Doe Pattern: 1. Agouti, 2. Solid\n"))
+doe_agouti <- if (doe_agouti_choice == 1) "AA" else "aa"
+cat("\n")
+
+buck_agouti_choice <- as.integer(readline("Buck Pattern: 1. Agouti, 2. Solid\n"))
+buck_agouti <- if (buck_agouti_choice == 1) "AA" else "aa"
+cat("\n")
+
+doe_family_choice <- as.integer(readline("Doe Color Family: 1. Full, 2. Chinchilla, 3. Seal, 4. Sable, 5. Himalayan, 6. Ruby\n"))
+doe_family <- switch(doe_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc")
+cat("\n")
+
+buck_family_choice <- as.integer(readline("Buck Color Family: 1. Full, 2. Chinchilla, 3. Seal, 4. Sable, 5. Himalayan, 6. Ruby\n"))
+buck_family <- switch(buck_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc")
+cat("\n")
+
+kit_count <- 10  # numeric
+is_dominant <- TRUE  # logical
+
+traits <- list("Color", "Agouti", "Family")  # list
+for (trait in traits) {
+  cat("Trait:", trait, "\n")  # loop and output
 }
 
-# Shiny UI: Simple form with text inputs and button (no styling)
-ui <- fluidPage(
-  titlePanel("Rabbit Coat Calculator"),  # App title
-  textInput("type", "Rabbit Type (e.g., Angora)", "Angora"),  # Input for type
-  numericInput("quantity", "Quantity", 1, min = 1),  # Input for quantity
-  actionButton("calculate", "Calculate Cost"),  # Button to trigger calculation
-  textOutput("result")  # Output display
+color_off <- simulate_offspring(doe_color, buck_color)
+agouti_off <- simulate_offspring(doe_agouti, buck_agouti)
+family_off <- simulate_offspring(doe_family, buck_family)
+
+df <- data.frame(
+  Color_Genotype = rep(color_off, length.out = kit_count),
+  Agouti_Genotype = rep(agouti_off, length.out = kit_count),
+  Family_Genotype = rep(family_off, length.out = kit_count),
+  stringsAsFactors = FALSE
 )
 
-# Shiny server: Handles logic, calls functions to demonstrate requirements
-server <- function(input, output) {
-observeEvent(input$calculate, {
-  # Call functions to demonstrate features
-  display_info(25, input$type)  # Output and datatypes
-  process_list(list("Soft", "Warm", "Fluffy"))  # Loop and list
-  total <- handle_dataframe_csv(
-    c(input$type, "Rex"),
-    c(input$quantity, 2)
-  ) # Dataframe and CSV
-  output$result <- renderText({
-    paste(
-      "Total Cost:",
-    total
-    )
-    # Display result
-  })
-}
+df$Color_Phenotype <- case_when(
+  df$Color_Genotype %in% c("BB", "Bb") ~ "Black",
+  df$Color_Genotype == "bb" ~ "Chocolate",
+  TRUE ~ "Unknown"
+)
+df$Agouti_Phenotype <- case_when(
+  df$Agouti_Genotype %in% c("AA", "Aa") ~ "Agouti",
+  df$Agouti_Genotype == "aa" ~ "Solid",
+  TRUE ~ "Unknown"
+)
+df$Family_Phenotype <- if_else(grepl("CCCC", df$Family_Genotype), "Full",
+  if_else(grepl("cchdcchd", df$Family_Genotype), "Chinchilla",
+    if_else(grepl("chch", df$Family_Genotype), "Seal",
+      if_else(grepl("cycy", df$Family_Genotype), "Sable",
+        if_else(grepl("cccc", df$Family_Genotype), "Himalayan",
+          if_else(grepl("cc", df$Family_Genotype), "Ruby", "Unknown"))))))
 
-# Run the Shiny app (starts local web server with simple form)
-shinyApp(ui = ui, server = server)
+write.csv(df, "kit_results.csv", row.names = FALSE)  # CSV
+
+cat("\nPredictions:\n")
+print(df)
+cat("Results saved to kit_results.csv\n")
