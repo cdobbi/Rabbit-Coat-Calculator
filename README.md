@@ -110,8 +110,10 @@ Random Assortment: Each offspring randomly inherits one allele from each parent 
 
 File Structure
 Rabbit-Genome-Calculator/
-├── rabbit_genome_calculator.R    # Main app without UI
-└── README.md                     # This file
+__ app.R               # Main app without UI
+__ README.md           # This file
+__.gitignore           # excluded from upload to github
+__ Kit_result.csv      # csv file stores results
 
 R Programming Demonstrations
 This repository includes basic R programming demonstrations via user/termianl interaction that showcase various R capabilities:
