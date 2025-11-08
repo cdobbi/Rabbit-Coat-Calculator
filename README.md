@@ -100,7 +100,8 @@ The calculator uses Mendelian genetics principles to predict kit outcomes:
 Each parent contributes one allele from each gene pair to each offspring
 All possible combinations are calculated using Punnett square logic
 Phenotypes (observable traits) are determined based on dominance relationships between alleles
-10 random offspring are generated from the possible combinations to show variety
+10 random offspring are generated from the possible combinations to show variety.
+
 Genetic Notes
 Dominance: Some alleles are dominant over others (e.g., E over e, A over a)
 Co-dominance: Some genes show intermediate effects when heterozygous
@@ -111,6 +112,7 @@ File Structure
 Rabbit-Genome-Calculator/
 ├── rabbit_genome_calculator.R    # Main app without UI
 └── README.md                     # This file
+
 R Programming Demonstrations
 This repository includes basic R programming demonstrations via user/termianl interaction that showcase various R capabilities:
 
