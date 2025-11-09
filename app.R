@@ -1,4 +1,7 @@
 library(dplyr) # load the dplyr helper toolkit so we can use functions like count(), mutate(), select(), etc.
+# Attribution Statement: I used AI assistance to help write individual lines of R code, but I worked through each one carefully—asking questions. I renamed variables, studied the syntax, naming conventions, and control flow to ensure I understood the meaning of every word and the logic behind it. The overall concept, structure, and application to animal husbandry are entirely my own design. I may not be writing code fully on my own yet, but I hope this calculator represents what I’ve learned and how I’ve applied it.
+
+
 # R stores the input string in RAM as soon as you type it; substr() just reads that in-memory string—no extra file required.
 # Syntax quick-reference:
 # <-  : assignment operator (binds a value to a name).
