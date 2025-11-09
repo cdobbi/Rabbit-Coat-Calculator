@@ -95,35 +95,36 @@ Dam: Solid Self (EE, enen, vv, dudu, sisi, ww, PP, CC, aa, BB, DD)
 Expected Offspring: Variety of patterns including harlequin and normal extension, some broken and some solid
 
 How It Works
-The calculator uses Mendelian genetics principles:
+The calculator uses Mendelian genetics principles to predict kit outcomes:
 
 Each parent contributes one allele from each gene pair to each offspring
 All possible combinations are calculated using Punnett square logic
 Phenotypes (observable traits) are determined based on dominance relationships between alleles
-10 random offspring are generated from the possible combinations to show variety
+10 random offspring are generated from the possible combinations to show variety.
+
 Genetic Notes
 Dominance: Some alleles are dominant over others (e.g., E over e, A over a)
 Co-dominance: Some genes show intermediate effects when heterozygous
 Epistasis: Some genes can mask the effects of others (e.g., REW masks all other colors)
 Random Assortment: Each offspring randomly inherits one allele from each parent for each gene
+
 File Structure
 Rabbit-Genome-Calculator/
-├── rabbit_genome_calculator.R    # Main Shiny app with full UI
-├── rabbit_calculator_cli.R       # Command-line version for testing
-└── README.md                     # This file
-R Programming Demonstrations
-This repository includes comprehensive R programming demonstrations that showcase various R capabilities:
+__ app.R               # Main app without UI
+__ README.md           # This file
+__.gitignore           # excluded from upload to github
+__ Kit_result.csv      # csv file stores results
 
-Demo Files
-basic_r_demo.R - Standalone demo (no dependencies required)
-r_features_demo.R - Advanced demo (requires dplyr package)
+R Programming Demonstrations
+This repository includes basic R programming demonstrations via user/termianl interaction that showcase various R capabilities:
+
 Features Demonstrated
 Multiple R datatypes (Numeric, Integer, Character, Logical, Factor, List, Vector, Matrix)
 Loops with lists and arrays
 Dataframe operations and manipulation
 CSV file input/output
 Conditional logic and case_when statements
-See DEMO_README.md for detailed information on running the demonstrations.
+See README.md for detailed information on running the demonstrations.
 
 Contributing
 This is part of a broader effort to build practical, animal-focused genetic tools. Contributions, suggestions, and improvements are welcome!
@@ -132,10 +133,8 @@ License
 See LICENSE file for details.
 
 Disclaimer
-This calculator provides predictions based on simplified Mendelian genetics. Real-world rabbit genetics can be more complex due to:
-
+This calculator provides predictions based on simplified Mendelian genetics. It does NOT yet, include:
 Modifier genes
 Environmental factors
 Incomplete expression
-Genetic interactions not modeled here
-Always consult with experienced breeders and genetics resources for breeding decisions.
+Genetic interactions not modeled here.
