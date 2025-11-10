@@ -5,7 +5,7 @@
 
 This software is a terminal-based R script that simulates rabbit offspring genotypes and phenotypes based on parent coat colors, patterns, and color families selected from multiple-choice options. It demonstrates key R programming concepts including datatypes, loops, dataframes, conditional logic, and CSV output. I chose the R programming language because of it's strengths in data manipulation, statistical computing, and scripting. It should integrate seamlessly with genetic sequencing tools and large genomic databases. I’ve applied this directly to a real-world need in animal husbandry. The calculator prompts users for parent genotypes across key loci—pattern, color family, base color, and agouti—then simulates 10 possible offspring combinations. For now, it outputs phenotype predictions and with percentages, giving breeders a clear, data-driven view of what to expect in each litter.
 
-[Software Demo Video](http://youtube.link.goes.here)
+Software Demo Video [http://youtube.link.goes.here](https://youtu.be/oqH4KbrSncM)
 
 # Development Environment
 
