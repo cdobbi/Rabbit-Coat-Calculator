@@ -101,6 +101,9 @@ doe_pattern_choice <- as.integer(readline("Type a number: "))
 doe_pattern <- switch(doe_pattern_choice,
     "EsEs", "Esej", "EnEn", "Enen", "VV", "Vv", "DuDu", "Dudu", "SiSi", "Sisi", "WW", "Ww", "PP", "Pp", "Invalid"
 )
+doe_pattern_label <- switch(doe_pattern_choice,
+    "Steel", "Harlequin", "Broken", "Carrier (Broken)", "Vienna", "Carrier (Vienna)", "Dutch", "Carrier (Dutch)", "Silvering", "Carrier (Silvering)", "Wideband", "Carrier (Wideband)", "Lutino", "Carrier (Lutino)", "Unknown"
+)
 
 cat("\n")
 
@@ -108,6 +111,9 @@ display_menu("Buck", "pattern", pattern_options)
 buck_pattern_choice <- as.integer(readline("Type a number: "))
 buck_pattern <- switch(buck_pattern_choice,
     "EsEs", "Esej", "EnEn", "Enen", "VV", "Vv", "DuDu", "Dudu", "SiSi", "Sisi", "WW", "Ww", "PP", "Pp", "Invalid"
+)
+buck_pattern_label <- switch(buck_pattern_choice,
+    "Steel", "Harlequin", "Broken", "Carrier (Broken)", "Vienna", "Carrier (Vienna)", "Dutch", "Carrier (Dutch)", "Silvering", "Carrier (Silvering)", "Wideband", "Carrier (Wideband)", "Lutino", "Carrier (Lutino)", "Unknown"
 )
 
 cat("\n")
