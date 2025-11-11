@@ -543,3 +543,20 @@ range_write(sheet_url, data.frame(percentage = 60.0), range = "C2")  # Example: 
 
 # Delete data (CRUD: delete) - Clear a range
 range_clear(sheet_url, range = "A2:C2")  # Example: Clear row 2
+
+# Summarize unique phenotypes with probabilities and associated genes
+outcome_summary <- results %>%
+  dplyr::mutate(
+    Possible_Colors = paste(Family, Color, Pattern, sep = " "),  # Combine traits for color name
+    Associated_Genes = paste("aa", ifelse(Color == "Black-based", "B_", "bb"), "C_", "D_", "E_", sep = " ")  # Example gene string; customize based on traits
+  ) %>%
+  dplyr::count(Possible_Colors, Associated_Genes, name = "Count") %>%
+  dplyr::mutate(Probability = round((Count / kit_count) * 100, 1)) %>%
+  dplyr::select(Possible_Colors, Probability, Associated_Genes) %>%
+  dplyr::arrange(dplyr::desc(Probability))
+
+# Show the formatted summary
+cat("\nPossible colors\n\n")
+cat("Probability\n\n")
+cat("Associated genes\n\n")
+print(outcome_summary)
