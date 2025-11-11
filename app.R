@@ -79,66 +79,10 @@ cat("🐇 Welcome to The Rabbit Genome Calculator!🧮\n")
 cat("****************************************************\n\n")
 cat("This calculator predicts the top 10 coat\n colors based on parent pairings.\n\n")
 # ----- Collect pattern selections -----
-pattern_options <- c(  # Updated with new patterns
-  "  1. Steel — Es/Es",
-  "  2. Harlequin — Es/ej",
-  "  3. Broken — En/En",
-  "  4. Carrier (Broken) — En/en",
-  "  5. Vienna — V/V",
-  "  6. Carrier (Vienna) — V/v",
-  "  7. Dutch — Du/Du",
-  "  8. Carrier (Dutch) — Du/du",
-  "  9. Silvering — Si/Si",
-  " 10. Carrier (Silvering) — Si/si",
-  " 11. Wideband — W/W",
-  " 12. Carrier (Wideband) — W/w",
-  " 13. Lutino — P/P",
-  " 14. Carrier (Lutino) — P/p"
-)
-
-display_menu("Doe", "pattern", pattern_options)
-doe_pattern_choice <- as.integer(readline("Type a number: "))
-doe_pattern <- switch(doe_pattern_choice,
-    "EsEs", "Esej", "EnEn", "Enen", "VV", "Vv", "DuDu", "Dudu", "SiSi", "Sisi", "WW", "Ww", "PP", "Pp", "Invalid"
-)
-doe_pattern_label <- switch(doe_pattern_choice,
-    "Steel", "Harlequin", "Broken", "Carrier (Broken)", "Vienna", "Carrier (Vienna)", "Dutch", "Carrier (Dutch)", "Silvering", "Carrier (Silvering)", "Wideband", "Carrier (Wideband)", "Lutino", "Carrier (Lutino)", "Unknown"
-)
-
-cat("\n")
-
-display_menu("Buck", "pattern", pattern_options)
-buck_pattern_choice <- as.integer(readline("Type a number: "))
-buck_pattern <- switch(buck_pattern_choice,
-    "EsEs", "Esej", "EnEn", "Enen", "VV", "Vv", "DuDu", "Dudu", "SiSi", "Sisi", "WW", "Ww", "PP", "Pp", "Invalid"
-)
-buck_pattern_label <- switch(buck_pattern_choice,
-    "Steel", "Harlequin", "Broken", "Carrier (Broken)", "Vienna", "Carrier (Vienna)", "Dutch", "Carrier (Dutch)", "Silvering", "Carrier (Silvering)", "Wideband", "Carrier (Wideband)", "Lutino", "Carrier (Lutino)", "Unknown"
-)
-
-cat("\n")
+# Removed old pattern code
 
 # ----- Collect C-locus (color family) selections -----
 # ----- Load genetic data from cloud database -----
-# Connect to cloud DB (replace with your credentials)
-# con <- dbConnect(RMySQL::MySQL(), 
-#                  dbname = "rabbit_genetics", 
-#                  host = "your-cloud-db-host", 
-#                  port = 3306, 
-#                  user = "your-username", 
-#                  password = "your-password")
-
-# Query for color family options (fetched dynamically instead of hardcoded)
-# family_options_query <- dbGetQuery(con, "SELECT option_text FROM genetic_options WHERE locus = 'family'")
-# family_options <- family_options_query$option_text  # e.g., c("1. Full — C (CC)", "2. Chinchilla — c(chd) (cchdcchd)", ...)
-
-# Query for color genotypes (fetched dynamically)
-# color_genotypes_query <- dbGetQuery(con, "SELECT genotype FROM genetic_options WHERE locus = 'color'")
-# color_genotypes <- color_genotypes_query$genotype  # e.g., c("BB", "Bb", "bb", ...)
-
-# Close connection after fetching
-# dbDisconnect(con)
-
 family_options <- c(  # c() is a built-in function that creates a vector by combining the listed values (strings here).
   "  1. Full — C (CC)",
   "  2. Chinchilla — c(chd) (cchdcchd)",
@@ -221,14 +165,14 @@ traits <- list("Pattern", "Color Family", "Color", "Agouti")
 color_off <- simulate_kits(doe_color, buck_color)  # simulate_kits is a function call that generates offspring genotypes for color.
 agouti_off <- simulate_kits(doe_agouti, buck_agouti)  # simulate_kits is a function call that generates offspring genotypes for agouti.
 family_off <- simulate_kits(doe_family, buck_family)  # simulate_kits is a function call that generates offspring genotypes for family.
-pattern_off <- simulate_kits(doe_pattern, buck_pattern)  # simulate_kits is a function call that generates offspring genotypes for pattern.
+# pattern_off <- simulate_kits(doe_pattern, buck_pattern)  # Removed
 
 # ----- Build a data frame (table) representing kits 1..10 -----
 df <- data.frame(  # data.frame is a built-in function that creates a table from named columns.
   Color_Genotype = rep(color_off, length.out = kit_count),  # rep is a built-in function that repeats the vector to reach length.out; length.out specifies the total length.
   Agouti_Genotype = rep(agouti_off, length.out = kit_count),  # rep is a built-in function that repeats the vector to reach length.out; length.out specifies the total length.
   Family_Genotype = rep(family_off, length.out = kit_count),
-  Pattern_Genotype = rep(pattern_off, length.out = kit_count),
+  # Pattern_Genotype = rep(pattern_off, length.out = kit_count),  # Removed
   stringsAsFactors = FALSE  # literal logical value passed to data.frame to keep strings as character type.
 )
 
@@ -253,23 +197,7 @@ df$Family_Phenotype <- dplyr::case_when(  # case_when is a dplyr function that a
   grepl("cc", df$Family_Genotype, ignore.case = TRUE) ~ "Ruby-Eyed White",
   TRUE ~ "Unknown"
 )
-df$Pattern_Phenotype <- dplyr::case_when(  # Updated for new genotypes
-  df$Pattern_Genotype == "EsEs" ~ "Steel",
-  df$Pattern_Genotype == "Esej" ~ "Harlequin",
-  df$Pattern_Genotype == "EnEn" ~ "Broken",
-  df$Pattern_Genotype == "Enen" ~ "Carrier (Broken)",
-  df$Pattern_Genotype == "VV" ~ "Vienna",
-  df$Pattern_Genotype == "Vv" ~ "Carrier (Vienna)",
-  df$Pattern_Genotype == "DuDu" ~ "Dutch",
-  df$Pattern_Genotype == "Dudu" ~ "Carrier (Dutch)",
-  df$Pattern_Genotype == "SiSi" ~ "Silvering",
-  df$Pattern_Genotype == "Sisi" ~ "Carrier (Silvering)",
-  df$Pattern_Genotype == "WW" ~ "Wideband",
-  df$Pattern_Genotype == "Ww" ~ "Carrier (Wideband)",
-  df$Pattern_Genotype == "PP" ~ "Lutino",
-  df$Pattern_Genotype == "Pp" ~ "Carrier (Lutino)",
-  TRUE ~ "Unknown"
-)
+# df$Pattern_Phenotype <- ...  # Removed
 
 # ----- Prepare table for printing -----
 results <- df %>% 
@@ -277,23 +205,21 @@ results <- df %>%
     Kit = seq_len(dplyr::n()),
     Family = Family_Phenotype,
     Color = Color_Phenotype,
-    Pattern = Pattern_Phenotype  # Updated to use directly
+    # Pattern = Pattern_Phenotype  # Removed
   ) %>%
-  dplyr::select(Kit, Family, Color, Pattern)  # select is a dplyr function that keeps only specified columns.
+  dplyr::select(Kit, Family, Color)  # select is a dplyr function that keeps only specified columns.
 
 # Summarize how many kits fall into each outcome and compute percentages
 outcome_summary <- results %>% 
-  dplyr::count(Family, Color, Pattern, name = "Kits") %>% 
+  dplyr::count(Family, Color, name = "Kits") %>% 
   dplyr::mutate(Percentage = round((Kits / kit_count) * 100, 1)) %>% 
-  dplyr::arrange(dplyr::desc(Kits), Family, Color, Pattern)  # arrange is a dplyr function that sorts rows; desc reverses order.
+  dplyr::arrange(dplyr::desc(Kits), Family, Color)  # arrange is a dplyr function that sorts rows; desc reverses order.
 
 # Sentence describing the parents using the captured labels
 parent_description <- sprintf(  # sprintf is a built-in function that formats strings with placeholders.
-  "Pairing of a %s '%s' doe and a %s '%s' buck produces:",
+  "Pairing of a %s doe and a %s buck produces:",
   doe_color_label,
-  doe_pattern_label,
-  buck_color_label,
-  buck_pattern_label
+  buck_color_label
 )
 
 # Save the kit table to CSV for convenience
@@ -340,7 +266,7 @@ range_write(sheet_url, data.frame(percentage = 60.0), range = "C2")  # Example: 
 range_clear(sheet_url, range = "A2:C2")  # Example: Clear row 2
 
 # ----- Load all genetic data from Google Sheets (cloud DB) -----
-gs4_auth()  # User authentication (additional requirement)
+# gs4_auth()  # Removed duplicate
 sheet_url <- "https://docs.google.com/spreadsheets/d/1iosMDfix6Hc_pr5yu70yfi09s175OzrNg3Otws2sDmY/edit?usp=sharing"  # Replace with your sheet URL
 
 # Retrieve all data (CRUD: retrieve)
@@ -349,7 +275,7 @@ genetic_data <- read_sheet(sheet_url)
 # Parse into lists for menus (includes all color families and colors from sheet)
 family_options <- genetic_data %>% filter(locus == "family") %>% pull(option_text)
 color_options <- genetic_data %>% filter(locus == "color") %>% pull(option_text)
-# agouti_options <- genetic_data %>% filter(locus == "agouti") %>% pull(option_text)
+agouti_options <- genetic_data %>% filter(locus == "agouti") %>% pull(option_text)
 steel_harlequin_options <- genetic_data %>% filter(locus == "steel_harlequin") %>% pull(option_text)
 broken_options <- genetic_data %>% filter(locus == "broken") %>% pull(option_text)
 vienna_options <- genetic_data %>% filter(locus == "vienna") %>% pull(option_text)
