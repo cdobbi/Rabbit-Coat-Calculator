@@ -85,26 +85,44 @@ cat("This calculator predicts the top 10 coat\n colors based on parent pairings.
 # Retrieve all data (CRUD: retrieve)
 # genetic_data <- read_sheet(sheet_url)
 
-# Parse into lists for menus (includes all color families and colors from sheet)
-family_options <- genetic_data %>% filter(locus == "family") %>% pull(option_text)
-color_options <- genetic_data %>% filter(locus == "color") %>% pull(option_text)
-agouti_options <- genetic_data %>% filter(locus == "agouti") %>% pull(option_text)
-steel_harlequin_options <- genetic_data %>% filter(locus == "steel_harlequin") %>% pull(option_text)
-broken_options <- genetic_data %>% filter(locus == "broken") %>% pull(option_text)
-vienna_options <- genetic_data %>% filter(locus == "vienna") %>% pull(option_text)
-dutch_options <- genetic_data %>% filter(locus == "dutch") %>% pull(option_text)
-silvering_options <- genetic_data %>% filter(locus == "silvering") %>% pull(option_text)
-wideband_options <- genetic_data %>% filter(locus == "wideband") %>% pull(option_text)
-lutino_options <- genetic_data %>% filter(locus == "lutino") %>% pull(option_text)
+# Parse into lists for menus (hardcoded)
+family_options <- c(
+  "  1. Full — C (CC)",
+  "  2. Chinchilla — c(chd) (cchdcchd)",
+  "  3. Seal — ch (chch)",
+  "  4. Sable — c(y) (cycy)",
+  "  5. Himalayan — c(h) (cccc)",
+  "  6. Ruby-Eyed-White — c (cc)"
+)
+color_options <- c(
+  "  1. Black (self)",
+  "  2. Black (self, carries chocolate)",
+  "  3. Chocolate (self)",
+  "  4. Black otter",
+  "  5. Chocolate otter",
+  "  6. Black tortoiseshell",
+  "  7. Chocolate tortoiseshell",
+  "  8. Chestnut (agouti)",
+  "  9. Orange (agouti)",
+  " 10. Chocolate agouti"
+)
+agouti_options <- c("1. Agouti", "2. Solid")
+steel_harlequin_options <- c("1. Steel — Es/Es", "2. Harlequin — Es/ej")
+broken_options <- c("1. Broken — En/En", "2. Carrier — En/en")
+vienna_options <- c("1. Vienna — V/V", "2. Carrier — V/v")
+dutch_options <- c("1. Dutch — Du/Du", "2. Carrier — Du/du")
+silvering_options <- c("1. Silvering — Si/Si", "2. Carrier — Si/si")
+wideband_options <- c("1. Wideband — W/W", "2. Carrier — W/w")
+lutino_options <- c("1. Lutino — P/P", "2. Carrier — P/p")
 
-# Genotype mappings
-steel_harlequin_genotypes <- genetic_data %>% filter(locus == "steel_harlequin") %>% pull(genotype)
-broken_genotypes <- genetic_data %>% filter(locus == "broken") %>% pull(genotype)
-vienna_genotypes <- genetic_data %>% filter(locus == "vienna") %>% pull(genotype)
-dutch_genotypes <- genetic_data %>% filter(locus == "dutch") %>% pull(genotype)
-silvering_genotypes <- genetic_data %>% filter(locus == "silvering") %>% pull(genotype)
-wideband_genotypes <- genetic_data %>% filter(locus == "wideband") %>% pull(genotype)
-lutino_genotypes <- genetic_data %>% filter(locus == "lutino") %>% pull(genotype)
+# Genotype mappings (hardcoded)
+steel_harlequin_genotypes <- c("EsEs", "Esej")
+broken_genotypes <- c("EnEn", "Enen")
+vienna_genotypes <- c("VV", "Vv")
+dutch_genotypes <- c("DuDu", "Dudu")
+silvering_genotypes <- c("SiSi", "Sisi")
+wideband_genotypes <- c("WW", "Ww")
+lutino_genotypes <- c("PP", "Pp")
 
 # ----- Consider patterns -----
 cat("Select if you want to consider the below patterns:\n")
@@ -204,7 +222,7 @@ buck_family_choice <- as.integer(readline("Type a number: "))
 buck_family <- switch(buck_family_choice, "CC", "cchdcchd", "chch", "cycy", "cccc", "cc", "Invalid")
 
 # ----- Collect B-locus (base color) selections -----
-color_genotypes <- genetic_data %>% filter(locus == "color") %>% pull(genotype)
+color_genotypes <- c("BB", "Bb", "bb", "BB", "bb", "BB", "bb", "BB", "Bb", "bb")
 get_color_genotype <- function(choice) {
   if (is.na(choice) || choice < 1 || choice > length(color_genotypes)) {
     "??" 
